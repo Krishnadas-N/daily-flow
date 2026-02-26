@@ -8,6 +8,7 @@ import {
   Menu,
   X,
   Target,
+  Bell,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -18,6 +19,7 @@ const Sidebar = () => {
     { to: "/", icon: <LayoutDashboard size={18} />, label: "Overview" },
     { to: "/tasks", icon: <CheckSquare size={18} />, label: "Tasks" },
     { to: "/learnings", icon: <BookOpen size={18} />, label: "Learnings" },
+    { to: "/reminders", icon: <Bell size={18} />, label: "Reminders" },
     { to: "/analytics", icon: <BarChart3 size={18} />, label: "Analytics" },
   ];
 
@@ -39,7 +41,7 @@ const Sidebar = () => {
               <Target size={20} />
             </div>
             <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              Flowstate
+              Daily Flux
             </h1>
           </div>
         </div>

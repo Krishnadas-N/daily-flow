@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import type { Task, Learning, Habit, Idea, TaskStatus, LearningStatus } from '../types';
+import type { Task, Learning, Habit, Idea, Reminder, TaskStatus, LearningStatus } from '../types';
 
 
 interface StoreState {
@@ -9,6 +9,7 @@ interface StoreState {
   learnings: Learning[];
   habits: Habit[];
   ideas: Idea[];
+  reminders: Reminder[];
   
   // Tasks Actions
   addTask: (title: string, needsJiraTicket?: boolean, priority?: 'Low' | 'Medium' | 'High') => void;
@@ -30,6 +31,11 @@ interface StoreState {
   // Idea Actions
   addIdea: (content: string) => void;
   deleteIdea: (id: string) => void;
+
+  // Reminders Actions
+  addReminder: (title: string, date?: string, time?: string) => void;
+  updateReminder: (id: string, updates: Partial<Reminder>) => void;
+  deleteReminder: (id: string) => void;
   
   // Analytics Getters (These could just be derived state, but handy to have access logic here if needed)
 }
@@ -44,6 +50,7 @@ export const useStore = create<StoreState>()(
         { id: uuidv4(), name: 'Read 10 mins', completedDates: [], createdAt: Date.now() }
       ],
       ideas: [],
+      reminders: [],
 
       // ---- Tasks ----
       addTask: (title, needsJiraTicket = false, priority = 'Medium') => set((state) => {
@@ -138,6 +145,24 @@ export const useStore = create<StoreState>()(
       }),
       deleteIdea: (id) => set((state) => ({
         ideas: state.ideas.filter(i => i.id !== id)
+      })),
+
+      // ---- Reminders ----
+      addReminder: (title, date, time) => set((state) => {
+        const newReminder: Reminder = {
+          id: uuidv4(),
+          title,
+          reminderDate: date,
+          reminderTime: time,
+          createdAt: Date.now()
+        };
+        return { reminders: [newReminder, ...state.reminders] };
+      }),
+      updateReminder: (id, updates) => set((state) => ({
+        reminders: state.reminders.map(r => r.id === id ? { ...r, ...updates } : r)
+      })),
+      deleteReminder: (id) => set((state) => ({
+        reminders: state.reminders.filter(r => r.id !== id)
       })),
 
     }),

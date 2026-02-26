@@ -11,6 +11,8 @@ export interface Task {
   needsJiraTicket: boolean;
   createdAt: number;
   completedAt?: number;
+  reminderDate?: string;
+  reminderTime?: string;
 }
 
 export interface Learning {
@@ -35,4 +37,12 @@ export interface Idea {
   createdAt: number;
 }
 
-export type ItemType = 'Task' | 'Learning' | 'Idea';
+export interface Reminder {
+  id: string;
+  title: string;
+  reminderDate?: string;
+  reminderTime?: string;
+  createdAt: number;
+}
+
+export type ItemType = 'Task' | 'Learning' | 'Idea' | 'Reminder';

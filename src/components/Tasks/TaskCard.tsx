@@ -1,7 +1,8 @@
 import { Draggable } from "@hello-pangea/dnd";
 import type { Task } from "../../types";
 import { useStore } from "../../store/useStore";
-import { Trash2, Clock } from "lucide-react";
+import { useState } from "react";
+import { Trash2, Clock, Bell, BellRing, X } from "lucide-react";
 
 interface Props {
   task: Task;
@@ -10,6 +11,17 @@ interface Props {
 
 const TaskCard = ({ task, index }: Props) => {
   const { deleteTask, updateTask } = useStore();
+  const [showReminderForm, setShowReminderForm] = useState(false);
+  const [remDate, setRemDate] = useState(task.reminderDate || "");
+  const [remTime, setRemTime] = useState(task.reminderTime || "");
+
+  const handleSaveReminder = () => {
+    updateTask(task.id, {
+      reminderDate: remDate || undefined,
+      reminderTime: remTime || undefined,
+    });
+    setShowReminderForm(false);
+  };
 
   return (
     <Draggable draggableId={task.id} index={index}>
@@ -30,13 +42,77 @@ const TaskCard = ({ task, index }: Props) => {
             >
               {task.title}
             </h3>
-            <button
-              onClick={() => deleteTask(task.id)}
-              className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all flex-shrink-0"
-            >
-              <Trash2 size={16} />
-            </button>
+            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
+              <button
+                onClick={() => setShowReminderForm(!showReminderForm)}
+                className={`p-1.5 rounded-lg transition-all ${task.reminderDate ? "text-indigo-500 hover:bg-indigo-50" : "text-slate-400 hover:text-indigo-500 hover:bg-indigo-50"}`}
+                title="Set Reminder"
+              >
+                {task.reminderDate ? (
+                  <BellRing size={16} />
+                ) : (
+                  <Bell size={16} />
+                )}
+              </button>
+              <button
+                onClick={() => deleteTask(task.id)}
+                className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-all flex-shrink-0"
+                title="Delete Task"
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
           </div>
+
+          {showReminderForm && (
+            <div className="mb-3 p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 relative">
+              <button
+                onClick={() => setShowReminderForm(false)}
+                className="absolute top-2 right-2 text-indigo-400 hover:text-indigo-600"
+              >
+                <X size={14} />
+              </button>
+              <h4 className="text-xs font-bold text-indigo-900 mb-2 flex items-center gap-1">
+                <BellRing size={12} /> Set Reminder
+              </h4>
+              <div className="flex flex-col gap-2">
+                <input
+                  type="date"
+                  value={remDate}
+                  onChange={(e) => setRemDate(e.target.value)}
+                  className="text-xs px-2 py-1.5 rounded bg-white border border-indigo-200 text-slate-700 outline-none focus:border-indigo-400"
+                />
+                <input
+                  type="time"
+                  value={remTime}
+                  onChange={(e) => setRemTime(e.target.value)}
+                  className="text-xs px-2 py-1.5 rounded bg-white border border-indigo-200 text-slate-700 outline-none focus:border-indigo-400"
+                />
+                <div className="flex justify-between items-center mt-1">
+                  <button
+                    onClick={() => {
+                      setRemDate("");
+                      setRemTime("");
+                      updateTask(task.id, {
+                        reminderDate: undefined,
+                        reminderTime: undefined,
+                      });
+                      setShowReminderForm(false);
+                    }}
+                    className="text-[10px] text-red-500 font-medium hover:underline"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    onClick={handleSaveReminder}
+                    className="text-[10px] bg-indigo-500 text-white px-3 py-1 rounded-md font-medium hover:bg-indigo-600 transition-colors"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {task.description && (
             <p className="text-sm text-slate-500 mb-3 line-clamp-2 leading-relaxed">
@@ -76,6 +152,18 @@ const TaskCard = ({ task, index }: Props) => {
                   day: "numeric",
                 })}
               </span>
+              {task.reminderDate && (
+                <span
+                  className={`text-[10px] flex items-center gap-1 font-bold px-1.5 py-0.5 rounded border ${new Date(task.reminderDate) < new Date() ? "bg-red-50 text-red-600 border-red-100" : "bg-indigo-50 text-indigo-600 border-indigo-100"}`}
+                >
+                  <BellRing size={10} />
+                  {new Date(task.reminderDate).toLocaleDateString(undefined, {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                  {task.reminderTime ? ` ${task.reminderTime}` : ""}
+                </span>
+              )}
             </div>
 
             {task.needsJiraTicket && (

@@ -6,6 +6,8 @@ import TasksPage from "./pages/TasksPage";
 import LearningsPage from "./pages/LearningsPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import DashboardPage from "./pages/DashboardPage";
+import RemindersPage from "./pages/RemindersPage";
+import { useNotifications } from "./hooks/useNotifications";
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <div className="flex bg-slate-50 min-h-screen text-slate-800 selection:bg-indigo-100 selection:text-indigo-900">
@@ -20,6 +22,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
 );
 
 function App() {
+  useNotifications();
+
   return (
     <BrowserRouter>
       <Layout>
@@ -27,6 +31,7 @@ function App() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/learnings" element={<LearningsPage />} />
+          <Route path="/reminders" element={<RemindersPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
         </Routes>
       </Layout>
