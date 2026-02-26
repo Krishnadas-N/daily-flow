@@ -1,0 +1,38 @@
+export type TaskStatus = 'Todo' | 'In Progress' | 'Completed';
+export type LearningStatus = 'To Learn' | 'Learning' | 'Mastered';
+
+export interface Task {
+  id: string;
+  title: string;
+  description?: string;
+  priority: 'Low' | 'Medium' | 'High';
+  tags: string[];
+  status: TaskStatus;
+  needsJiraTicket: boolean;
+  createdAt: number;
+  completedAt?: number;
+}
+
+export interface Learning {
+  id: string;
+  topic: string;
+  notes?: string;
+  status: LearningStatus;
+  tags: string[];
+  createdAt: number;
+}
+
+export interface Habit {
+  id: string;
+  name: string;
+  completedDates: string[]; // ISO date strings like "2023-10-25"
+  createdAt: number;
+}
+
+export interface Idea {
+  id: string;
+  content: string;
+  createdAt: number;
+}
+
+export type ItemType = 'Task' | 'Learning' | 'Idea';
