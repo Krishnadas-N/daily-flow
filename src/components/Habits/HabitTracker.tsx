@@ -33,20 +33,20 @@ const HabitTracker = () => {
         </h2>
       </div>
 
-      <div className="overflow-x-auto custom-scrollbar pb-2">
-        <div className="min-w-[600px]">
+      <div className="overflow-x-auto custom-scrollbar pb-4 -mx-2 px-2">
+        <div className="min-w-[700px]">
           {/* Header Row */}
-          <div className="grid grid-cols-8 gap-4 mb-6">
+          <div className="grid grid-cols-[1.5fr_repeat(7,1fr)] gap-3 mb-6">
             <div className="col-span-1"></div>
             {dates.map((date, i) => (
               <div key={i} className="text-center flex flex-col items-center">
-                <p className="text-[11px] uppercase tracking-wider text-slate-400 font-bold mb-1">
+                <p className="text-[10px] uppercase tracking-[0.1em] text-slate-400 font-black mb-1.5">
                   {date.toLocaleDateString("en-US", { weekday: "short" })}
                 </p>
                 <div
-                  className={`text-sm font-bold flex items-center justify-center w-8 h-8 rounded-full ${
+                  className={`text-xs font-black flex items-center justify-center w-9 h-9 rounded-full transition-all ${
                     i === 6
-                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
+                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 ring-4 ring-indigo-50"
                       : "text-slate-600 bg-slate-50 border border-slate-100"
                   }`}
                 >
@@ -57,24 +57,24 @@ const HabitTracker = () => {
           </div>
 
           {/* Habit Rows */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {habits.map((habit) => (
               <div
                 key={habit.id}
-                className="grid grid-cols-8 gap-4 items-center group"
+                className="grid grid-cols-[1.5fr_repeat(7,1fr)] gap-3 items-center group"
               >
-                <div className="col-span-1 flex items-center justify-between bg-slate-50 px-4 py-3 rounded-2xl border border-slate-100 shadow-sm transition-all hover:border-slate-300">
+                <div className="col-span-1 flex items-center justify-between bg-slate-50/80 px-4 py-3 rounded-2xl border border-slate-100 shadow-sm transition-all hover:border-slate-300 hover:bg-white">
                   <span
-                    className="text-[14.5px] font-semibold text-slate-700 truncate pr-2"
+                    className="text-[14px] font-bold text-slate-700 truncate pr-2"
                     title={habit.name}
                   >
                     {habit.name}
                   </span>
                   <button
                     onClick={() => deleteHabit(habit.id)}
-                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-all flex-shrink-0"
+                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg md:opacity-0 md:group-hover:opacity-100 transition-all flex-shrink-0"
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={15} />
                   </button>
                 </div>
 
@@ -86,13 +86,19 @@ const HabitTracker = () => {
                     <div key={i} className="flex justify-center">
                       <button
                         onClick={() => toggleHabitDate(habit.id, dateStr)}
-                        className={`w-10 h-10 rounded-2xl border-2 flex items-center justify-center transition-all duration-200 group-hover:scale-105 ${
+                        className={`w-11 h-11 rounded-2xl border-2 flex items-center justify-center transition-all duration-300 ${
                           isCompleted
-                            ? "bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-200 hover:bg-emerald-600 hover:border-emerald-600"
-                            : "bg-white border-slate-200 hover:border-indigo-300 text-transparent hover:bg-indigo-50/50"
+                            ? "bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-100 hover:bg-emerald-600 hover:border-emerald-600 hover:scale-105"
+                            : "bg-white border-slate-200 hover:border-indigo-300 text-transparent hover:bg-indigo-50/50 hover:scale-105"
                         }`}
                       >
-                        {isCompleted && <Check size={20} strokeWidth={3} />}
+                        {isCompleted && (
+                          <Check
+                            size={22}
+                            strokeWidth={3.5}
+                            className="animate-in zoom-in duration-300"
+                          />
+                        )}
                       </button>
                     </div>
                   );

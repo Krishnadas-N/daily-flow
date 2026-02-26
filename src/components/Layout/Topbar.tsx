@@ -31,8 +31,8 @@ const Topbar = () => {
   ];
 
   return (
-    <div className="w-full bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 px-4 md:px-8 py-4 flex flex-col md:flex-row items-center justify-between shadow-[0_4px_30px_rgba(0,0,0,0.01)] transition-all">
-      <div className="hidden md:flex flex-col mb-2 md:mb-0">
+    <div className="w-full bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 px-3 md:px-8 py-3 md:py-4 flex flex-col md:flex-row items-center gap-3 md:justify-between shadow-[0_4px_30px_rgba(0,0,0,0.01)] transition-all">
+      <div className="hidden md:flex flex-col">
         <h2 className="text-slate-800 font-semibold text-lg leading-tight tracking-tight">
           Focus Workspace
         </h2>
@@ -43,13 +43,13 @@ const Topbar = () => {
         onSubmit={handleSubmit}
         className="w-full max-w-2xl bg-slate-50 border border-slate-200 rounded-2xl flex items-center p-1.5 shadow-sm transition-all focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-400/20 focus-within:bg-white"
       >
-        <div className="flex bg-slate-100 rounded-xl p-0.5 mr-2 border border-slate-200/60">
+        <div className="flex bg-slate-100/80 rounded-xl p-0.5 mr-1.5 border border-slate-200/60 shrink-0">
           {types.map((t) => (
             <button
               key={t.value}
               type="button"
               onClick={() => setType(t.value)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm ${
                 type === t.value
                   ? "bg-white text-indigo-600 border border-slate-200/50"
                   : "text-slate-500 hover:text-slate-800 hover:bg-slate-200/40 shadow-none border border-transparent"
@@ -71,14 +71,18 @@ const Topbar = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={`Quick add new ${type.toLowerCase()}... (Enter)`}
-          className="flex-1 bg-transparent border-none outline-none text-slate-800 text-sm px-2 py-2 placeholder-slate-400 font-medium"
+          placeholder={
+            window.innerWidth < 640
+              ? "Quick add..."
+              : `Quick add new ${type.toLowerCase()}...`
+          }
+          className="flex-1 bg-transparent border-none outline-none text-slate-800 text-sm px-1 sm:px-2 py-2 placeholder-slate-400 font-medium min-w-0"
         />
 
         <button
           type="submit"
           disabled={!input.trim()}
-          className="ml-2 bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600 shadow-sm"
+          className="ml-1 sm:ml-2 bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600 shadow-sm shrink-0"
         >
           <Plus size={18} />
         </button>

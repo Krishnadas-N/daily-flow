@@ -20,9 +20,9 @@ const DashboardPage = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mb-8">
         {/* Ideas capture */}
-        <div className="bg-white border border-slate-200 rounded-[28px] p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col h-96 col-span-1 xl:col-span-1">
+        <div className="bg-white border border-slate-200 rounded-[28px] p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col h-[400px] md:h-96 col-span-1 md:col-span-2 lg:col-span-1">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
               <div className="p-2 bg-amber-100/50 rounded-xl text-amber-500">
@@ -39,7 +39,9 @@ const DashboardPage = () => {
             {ideas.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-slate-400 text-sm">
                 <p>No ideas yet.</p>
-                <p className="opacity-70">Use the top bar to capture</p>
+                <p className="opacity-70 text-center">
+                  Use the top bar to capture
+                </p>
               </div>
             ) : (
               ideas.map((idea) => (
@@ -52,7 +54,7 @@ const DashboardPage = () => {
                   </p>
                   <button
                     onClick={() => deleteIdea(idea.id)}
-                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all flex-shrink-0"
+                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg md:opacity-0 md:group-hover:opacity-100 transition-all flex-shrink-0"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -63,8 +65,8 @@ const DashboardPage = () => {
         </div>
 
         {/* Priorities Highlights */}
-        <div className="col-span-1 xl:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 border border-indigo-500 rounded-[28px] p-7 shadow-lg shadow-indigo-200 flex flex-col h-full text-white">
+        <div className="col-span-1 md:col-span-2 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 border border-indigo-500 rounded-[28px] p-6 sm:p-7 shadow-lg shadow-indigo-200 flex flex-col h-[350px] sm:h-full text-white">
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h3 className="text-xl font-bold mb-1">Current Focus</h3>
@@ -102,7 +104,7 @@ const DashboardPage = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-teal-500 to-emerald-600 border border-teal-400/50 rounded-[28px] p-7 shadow-lg shadow-teal-100 flex flex-col h-full text-white">
+          <div className="bg-gradient-to-br from-teal-500 to-emerald-600 border border-teal-400/50 rounded-[28px] p-6 sm:p-7 shadow-lg shadow-teal-100 flex flex-col h-[350px] sm:h-full text-white">
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h3 className="text-xl font-bold mb-1">Learning Now</h3>

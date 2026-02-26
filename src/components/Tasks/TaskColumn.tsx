@@ -46,7 +46,7 @@ const TaskColumn = ({ status, tasks }: Props) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 rounded-[28px] border border-slate-200 shadow-sm overflow-hidden min-w-[320px] max-w-[360px] flex-1">
+    <div className="flex flex-col h-full bg-slate-50 rounded-[28px] border border-slate-200 shadow-sm overflow-hidden min-w-[280px] sm:min-w-[320px] max-w-[360px] flex-1">
       <div className="p-5 pb-3 flex items-center justify-between">
         <h2 className="font-bold text-slate-800 text-lg">{status}</h2>
         <span

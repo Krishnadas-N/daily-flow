@@ -49,9 +49,9 @@ const LearningBoard = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 pb-12">
         {filtered.length === 0 ? (
-          <div className="col-span-full py-24 flex flex-col items-center justify-center text-slate-400 bg-white/50 rounded-[32px] border-2 border-slate-200 border-dashed">
+          <div className="col-span-full py-20 md:py-24 flex flex-col items-center justify-center text-slate-400 bg-white/50 rounded-[32px] border-2 border-slate-200 border-dashed">
             <BookOpen size={48} className="mb-6 opacity-30 text-indigo-500" />
             <p className="text-lg font-medium">
               Your knowledge vault is empty.
@@ -64,7 +64,7 @@ const LearningBoard = () => {
           filtered.map((item) => (
             <div
               key={item.id}
-              className="bg-white border border-slate-200 rounded-[24px] p-6 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-50 transition-all flex flex-col group relative overflow-hidden"
+              className="bg-white border border-slate-200 rounded-[24px] p-5 md:p-6 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-50 transition-all flex flex-col group relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-1.5 h-full bg-indigo-500 opacity-60"></div>
 
@@ -74,7 +74,7 @@ const LearningBoard = () => {
                 </h3>
                 <button
                   onClick={() => deleteLearning(item.id)}
-                  className="text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition-all opacity-0 group-hover:opacity-100 bg-white shadow-sm border border-slate-100"
+                  className="text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition-all md:opacity-0 md:group-hover:opacity-100 bg-white shadow-sm border border-slate-100"
                 >
                   <Trash2 size={16} />
                 </button>

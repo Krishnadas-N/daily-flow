@@ -10,9 +10,11 @@ import DashboardPage from "./pages/DashboardPage";
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <div className="flex bg-slate-50 min-h-screen text-slate-800 selection:bg-indigo-100 selection:text-indigo-900">
     <Sidebar />
-    <main className="flex-1 md:ml-64 flex flex-col min-h-screen relative w-full overflow-x-hidden">
+    <main className="flex-1 md:ml-64 flex flex-col min-h-screen relative w-full max-w-full overflow-hidden">
       <Topbar />
-      <div className="flex-1 p-4 md:p-6 lg:p-8 w-full">{children}</div>
+      <div className="flex-1 p-3 sm:p-4 md:p-6 lg:p-8 w-full max-w-full overflow-x-hidden">
+        {children}
+      </div>
     </main>
   </div>
 );
