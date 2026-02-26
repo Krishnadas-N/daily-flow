@@ -6,7 +6,15 @@ import { Link } from "react-router-dom";
 const DashboardPage = () => {
   const { ideas, deleteIdea, tasks, learnings } = useStore();
 
-  const pendingTasks = tasks.filter((t) => t.status !== "Completed");
+  const pendingTasks = tasks
+    .filter((t) => t.status !== "Completed")
+    .sort((a, b) => {
+      const priorityWeight = { High: 3, Medium: 2, Low: 1 };
+      if (priorityWeight[a.priority] !== priorityWeight[b.priority]) {
+        return priorityWeight[b.priority] - priorityWeight[a.priority];
+      }
+      return b.createdAt - a.createdAt;
+    });
   const activeLearnings = learnings.filter((l) => l.status === "Learning");
 
   return (

@@ -11,7 +11,7 @@ interface StoreState {
   ideas: Idea[];
   
   // Tasks Actions
-  addTask: (title: string, needsJiraTicket?: boolean) => void;
+  addTask: (title: string, needsJiraTicket?: boolean, priority?: 'Low' | 'Medium' | 'High') => void;
   updateTaskStatus: (id: string, status: TaskStatus) => void;
   updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
@@ -46,11 +46,11 @@ export const useStore = create<StoreState>()(
       ideas: [],
 
       // ---- Tasks ----
-      addTask: (title, needsJiraTicket = false) => set((state) => {
+      addTask: (title, needsJiraTicket = false, priority = 'Medium') => set((state) => {
         const newTask: Task = {
           id: uuidv4(),
           title,
-          priority: 'Medium',
+          priority,
           tags: [],
           status: 'Todo',
           needsJiraTicket,

@@ -65,9 +65,19 @@ const TaskColumn = ({ status, tasks }: Props) => {
               snapshot.isDraggingOver ? "bg-indigo-50/50" : "bg-transparent"
             }`}
           >
-            {tasks.map((task, index) => (
-              <TaskCard key={task.id} task={task} index={index} />
-            ))}
+            {tasks
+              .sort((a, b) => {
+                const priorityWeight = { High: 3, Medium: 2, Low: 1 };
+                if (priorityWeight[a.priority] !== priorityWeight[b.priority]) {
+                  return (
+                    priorityWeight[b.priority] - priorityWeight[a.priority]
+                  );
+                }
+                return b.createdAt - a.createdAt;
+              })
+              .map((task, index) => (
+                <TaskCard key={task.id} task={task} index={index} />
+              ))}
             {provided.placeholder}
 
             {status === "Todo" && (
