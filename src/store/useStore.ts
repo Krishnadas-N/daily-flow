@@ -10,6 +10,7 @@ interface StoreState {
   habits: Habit[];
   ideas: Idea[];
   reminders: Reminder[];
+  isSidebarCollapsed: boolean;
   
   // Tasks Actions
   addTask: (title: string, needsJiraTicket?: boolean, priority?: 'Low' | 'Medium' | 'High') => void;
@@ -37,6 +38,9 @@ interface StoreState {
   updateReminder: (id: string, updates: Partial<Reminder>) => void;
   deleteReminder: (id: string) => void;
   
+  // UI Actions
+  toggleSidebarCollapse: () => void;
+  
   // Analytics Getters (These could just be derived state, but handy to have access logic here if needed)
 }
 
@@ -51,6 +55,7 @@ export const useStore = create<StoreState>()(
       ],
       ideas: [],
       reminders: [],
+      isSidebarCollapsed: false,
 
       // ---- Tasks ----
       addTask: (title, needsJiraTicket = false, priority = 'Medium') => set((state) => {
@@ -163,6 +168,11 @@ export const useStore = create<StoreState>()(
       })),
       deleteReminder: (id) => set((state) => ({
         reminders: state.reminders.filter(r => r.id !== id)
+      })),
+
+      // ---- UI ----
+      toggleSidebarCollapse: () => set((state) => ({
+        isSidebarCollapsed: !state.isSidebarCollapsed
       })),
 
     }),

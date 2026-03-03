@@ -46,3 +46,8 @@ export interface Reminder {
 }
 
 export type ItemType = 'Task' | 'Learning' | 'Idea' | 'Reminder';
+
+export interface ArchitectureNodeData extends Record<string, unknown> {
+  label: string;
+  description?: string;
+}
