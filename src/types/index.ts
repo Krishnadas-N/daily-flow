@@ -1,11 +1,11 @@
-export type TaskStatus = 'Todo' | 'In Progress' | 'Completed';
-export type LearningStatus = 'To Learn' | 'Learning' | 'Mastered';
+export type TaskStatus = "Todo" | "In Progress" | "Completed";
+export type LearningStatus = "To Learn" | "Learning" | "Mastered";
 
 export interface Task {
   id: string;
   title: string;
   description?: string;
-  priority: 'Low' | 'Medium' | 'High';
+  priority: "Low" | "Medium" | "High";
   tags: string[];
   status: TaskStatus;
   needsJiraTicket: boolean;
@@ -37,6 +37,14 @@ export interface Idea {
   createdAt: number;
 }
 
+export interface Note {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
 export interface Reminder {
   id: string;
   title: string;
@@ -45,7 +53,7 @@ export interface Reminder {
   createdAt: number;
 }
 
-export type ItemType = 'Task' | 'Learning' | 'Idea' | 'Reminder';
+export type ItemType = "Task" | "Learning" | "Idea" | "Reminder";
 
 export interface ArchitectureNodeData extends Record<string, unknown> {
   label: string;

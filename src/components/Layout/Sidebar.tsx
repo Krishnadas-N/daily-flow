@@ -13,6 +13,7 @@ import {
   Network,
   Download,
   Upload,
+  StickyNote,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -73,6 +74,7 @@ const Sidebar = () => {
     { to: "/", icon: <LayoutDashboard size={18} />, label: "Overview" },
     { to: "/tasks", icon: <CheckSquare size={18} />, label: "Tasks" },
     { to: "/learnings", icon: <BookOpen size={18} />, label: "Learnings" },
+    { to: "/notes", icon: <StickyNote size={18} />, label: "Notes" },
     { to: "/reminders", icon: <Bell size={18} />, label: "Reminders" },
     { to: "/architecture", icon: <Network size={18} />, label: "Architecture" },
     { to: "/analytics", icon: <BarChart3 size={18} />, label: "Analytics" },
