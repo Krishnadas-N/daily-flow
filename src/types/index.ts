@@ -53,7 +53,19 @@ export interface Reminder {
   createdAt: number;
 }
 
-export type ItemType = "Task" | "Learning" | "Idea" | "Reminder";
+export interface Bookmark {
+  id: string;
+  url: string;
+  title: string;
+  description?: string;
+  imageUrl?: string;
+  group: string;
+  subgroup?: string;
+  metadata?: Record<string, string>;
+  createdAt: number;
+}
+
+export type ItemType = "Task" | "Learning" | "Idea" | "Reminder" | "Bookmark";
 
 export interface ArchitectureNodeData extends Record<string, unknown> {
   label: string;

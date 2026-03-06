@@ -8,6 +8,7 @@ import type {
   Idea,
   Reminder,
   Note,
+  Bookmark,
   TaskStatus,
   LearningStatus,
 } from "../types";
@@ -19,6 +20,7 @@ interface StoreState {
   ideas: Idea[];
   reminders: Reminder[];
   notes: Note[];
+  bookmarks: Bookmark[];
   isSidebarCollapsed: boolean;
 
   // Tasks Actions
@@ -56,6 +58,19 @@ interface StoreState {
   updateNote: (id: string, updates: Partial<Note>) => void;
   deleteNote: (id: string) => void;
 
+  // Bookmarks Actions
+  addBookmark: (
+    url: string,
+    title: string,
+    group: string,
+    subgroup?: string,
+    description?: string,
+    imageUrl?: string,
+    metadata?: Record<string, string>,
+  ) => string;
+  updateBookmark: (id: string, updates: Partial<Bookmark>) => void;
+  deleteBookmark: (id: string) => void;
+
   // UI Actions
   toggleSidebarCollapse: () => void;
 
@@ -84,6 +99,7 @@ export const useStore = create<StoreState>()(
       ideas: [],
       reminders: [],
       notes: [],
+      bookmarks: [],
       isSidebarCollapsed: false,
 
       // ---- Tasks ----
@@ -245,6 +261,44 @@ export const useStore = create<StoreState>()(
       deleteNote: (id) =>
         set((state) => ({
           notes: state.notes.filter((n) => n.id !== id),
+        })),
+
+      // ---- Bookmarks ----
+      addBookmark: (
+        url,
+        title,
+        group,
+        subgroup,
+        description,
+        imageUrl,
+        metadata,
+      ) => {
+        const id = uuidv4();
+        set((state) => {
+          const newBookmark: Bookmark = {
+            id,
+            url,
+            title,
+            group,
+            subgroup,
+            description,
+            imageUrl,
+            metadata,
+            createdAt: Date.now(),
+          };
+          return { bookmarks: [newBookmark, ...state.bookmarks] };
+        });
+        return id;
+      },
+      updateBookmark: (id, updates) =>
+        set((state) => ({
+          bookmarks: state.bookmarks.map((b) =>
+            b.id === id ? { ...b, ...updates } : b,
+          ),
+        })),
+      deleteBookmark: (id) =>
+        set((state) => ({
+          bookmarks: state.bookmarks.filter((b) => b.id !== id),
         })),
 
       // ---- UI ----
