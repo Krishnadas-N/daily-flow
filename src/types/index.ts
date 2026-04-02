@@ -71,3 +71,16 @@ export interface ArchitectureNodeData extends Record<string, unknown> {
   label: string;
   description?: string;
 }
+
+export interface WorkLogItem {
+  id: string;
+  text: string;
+  createdAt: number;
+}
+
+export interface WorkLogDay {
+  date: string; // ISO date string: "2026-04-02"
+  items: WorkLogItem[];
+  isHoliday: boolean;
+  holidayReason?: string;
+}
