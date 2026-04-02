@@ -15,6 +15,7 @@ import {
   Upload,
   StickyNote,
   Bookmark as BookmarkIcon,
+  ClipboardList,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -77,6 +78,7 @@ const Sidebar = () => {
     { to: "/learnings", icon: <BookOpen size={18} />, label: "Learnings" },
     { to: "/notes", icon: <StickyNote size={18} />, label: "Notes" },
     { to: "/bookmarks", icon: <BookmarkIcon size={18} />, label: "Bookmarks" },
+    { to: "/worklog", icon: <ClipboardList size={18} />, label: "Work Log" },
     { to: "/reminders", icon: <Bell size={18} />, label: "Reminders" },
     { to: "/architecture", icon: <Network size={18} />, label: "Architecture" },
     { to: "/analytics", icon: <BarChart3 size={18} />, label: "Analytics" },
