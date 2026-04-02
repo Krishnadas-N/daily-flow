@@ -10,6 +10,7 @@ import RemindersPage from "./pages/RemindersPage";
 import ArchitecturePage from "./pages/ArchitecturePage";
 import NotesPage from "./pages/NotesPage";
 import BookmarksPage from "./pages/BookmarksPage";
+import WorkLogPage from "./pages/WorkLogPage";
 import { useNotifications } from "./hooks/useNotifications";
 import { useStore } from "./store/useStore";
 
@@ -43,6 +44,7 @@ function App() {
           <Route path="/learnings" element={<LearningsPage />} />
           <Route path="/notes" element={<NotesPage />} />
           <Route path="/bookmarks" element={<BookmarksPage />} />
+          <Route path="/worklog" element={<WorkLogPage />} />
           <Route path="/reminders" element={<RemindersPage />} />
           <Route path="/architecture" element={<ArchitecturePage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
