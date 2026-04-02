@@ -11,6 +11,8 @@ import type {
   Bookmark,
   TaskStatus,
   LearningStatus,
+  WorkLogDay,
+  WorkLogItem,
 } from "../types";
 
 interface StoreState {
@@ -21,6 +23,7 @@ interface StoreState {
   reminders: Reminder[];
   notes: Note[];
   bookmarks: Bookmark[];
+  workLogs: WorkLogDay[];
   isSidebarCollapsed: boolean;
 
   // Tasks Actions
@@ -71,6 +74,12 @@ interface StoreState {
   updateBookmark: (id: string, updates: Partial<Bookmark>) => void;
   deleteBookmark: (id: string) => void;
 
+  // Work Log Actions
+  addWorkLogItem: (date: string, text: string) => void;
+  updateWorkLogItem: (date: string, itemId: string, text: string) => void;
+  deleteWorkLogItem: (date: string, itemId: string) => void;
+  setHoliday: (date: string, isHoliday: boolean, reason?: string) => void;
+
   // UI Actions
   toggleSidebarCollapse: () => void;
 
@@ -100,6 +109,7 @@ export const useStore = create<StoreState>()(
       reminders: [],
       notes: [],
       bookmarks: [],
+      workLogs: [],
       isSidebarCollapsed: false,
 
       // ---- Tasks ----
@@ -300,6 +310,74 @@ export const useStore = create<StoreState>()(
         set((state) => ({
           bookmarks: state.bookmarks.filter((b) => b.id !== id),
         })),
+
+      // ---- Work Logs ----
+      addWorkLogItem: (date, text) =>
+        set((state) => {
+          const existing = state.workLogs.find((d) => d.date === date);
+          const newItem: WorkLogItem = {
+            id: uuidv4(),
+            text,
+            createdAt: Date.now(),
+          };
+          if (existing) {
+            return {
+              workLogs: state.workLogs.map((d) =>
+                d.date === date ? { ...d, items: [...d.items, newItem] } : d,
+              ),
+            };
+          }
+          const newDay: WorkLogDay = {
+            date,
+            items: [newItem],
+            isHoliday: false,
+          };
+          return { workLogs: [...state.workLogs, newDay] };
+        }),
+
+      updateWorkLogItem: (date, itemId, text) =>
+        set((state) => ({
+          workLogs: state.workLogs.map((d) =>
+            d.date === date
+              ? {
+                  ...d,
+                  items: d.items.map((i) =>
+                    i.id === itemId ? { ...i, text } : i,
+                  ),
+                }
+              : d,
+          ),
+        })),
+
+      deleteWorkLogItem: (date, itemId) =>
+        set((state) => ({
+          workLogs: state.workLogs.map((d) =>
+            d.date === date
+              ? { ...d, items: d.items.filter((i) => i.id !== itemId) }
+              : d,
+          ),
+        })),
+
+      setHoliday: (date, isHoliday, reason) =>
+        set((state) => {
+          const existing = state.workLogs.find((d) => d.date === date);
+          if (existing) {
+            return {
+              workLogs: state.workLogs.map((d) =>
+                d.date === date
+                  ? { ...d, isHoliday, holidayReason: isHoliday ? reason : undefined }
+                  : d,
+              ),
+            };
+          }
+          const newDay: WorkLogDay = {
+            date,
+            items: [],
+            isHoliday,
+            holidayReason: isHoliday ? reason : undefined,
+          };
+          return { workLogs: [...state.workLogs, newDay] };
+        }),
 
       // ---- UI ----
       toggleSidebarCollapse: () =>
