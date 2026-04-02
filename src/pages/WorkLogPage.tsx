@@ -18,7 +18,6 @@ import {
   Edit3,
   Trash2,
   ClipboardList,
-  X,
   Check,
 } from "lucide-react";
 import { useStore } from "../store/useStore";
