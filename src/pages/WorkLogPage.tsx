@@ -44,8 +44,7 @@ const WorkLogPage = () => {
     }
     setNewItemText("");
     setEditingItemId(null);
-    const log = workLogs.find((d) => d.date === format(date, "yyyy-MM-dd"));
-    setHolidayReason(log?.holidayReason ?? "");
+    setHolidayReason(getDayLog(date)?.holidayReason ?? "");
   };
 
   const handleAddItem = () => {
@@ -204,7 +203,7 @@ const WorkLogPage = () => {
                   <h2 className="text-xl font-bold text-slate-900">
                     {format(selectedDate, "EEEE, MMMM d, yyyy")}
                   </h2>
-                  {isToday(selectedDate) && (
+                  {isSameDay(selectedDate, today) && (
                     <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full mt-1 inline-block">
                       Today
                     </span>
@@ -345,10 +344,5 @@ const WorkLogPage = () => {
     </div>
   );
 };
-
-// tiny helper used inline in JSX
-function isToday(date: Date) {
-  return isSameDay(date, new Date());
-}
 
 export default WorkLogPage;

@@ -375,11 +375,12 @@ export const useStore = create<StoreState>()(
               ),
             };
           }
+          if (!isHoliday) return state; // no-op: no point creating an empty non-holiday day
           const newDay: WorkLogDay = {
             date,
             items: [],
-            isHoliday,
-            holidayReason: isHoliday ? reason : undefined,
+            isHoliday: true,
+            holidayReason: reason,
           };
           return { workLogs: [...state.workLogs, newDay] };
         }),
