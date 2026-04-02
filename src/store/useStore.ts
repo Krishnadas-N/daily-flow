@@ -350,13 +350,18 @@ export const useStore = create<StoreState>()(
         })),
 
       deleteWorkLogItem: (date, itemId) =>
-        set((state) => ({
-          workLogs: state.workLogs.map((d) =>
+        set((state) => {
+          const updatedLogs = state.workLogs.map((d) =>
             d.date === date
               ? { ...d, items: d.items.filter((i) => i.id !== itemId) }
               : d,
-          ),
-        })),
+          );
+          return {
+            workLogs: updatedLogs.filter(
+              (d) => d.items.length > 0 || d.isHoliday,
+            ),
+          };
+        }),
 
       setHoliday: (date, isHoliday, reason) =>
         set((state) => {

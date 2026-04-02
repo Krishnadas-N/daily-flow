@@ -61,8 +61,11 @@ const WorkLogPage = () => {
   };
 
   const handleSaveEdit = () => {
-    if (editingItemId && editingText.trim()) {
-      updateWorkLogItem(selectedDateStr, editingItemId, editingText.trim());
+    if (editingItemId) {
+      if (editingText.trim()) {
+        updateWorkLogItem(selectedDateStr, editingItemId, editingText.trim());
+      }
+      // If empty, original text stays unchanged — just close the editor
     }
     setEditingItemId(null);
     setEditingText("");
@@ -211,12 +214,14 @@ const WorkLogPage = () => {
 
               {/* Holiday Toggle */}
               <div className="mt-4 flex items-center gap-3 flex-wrap">
-                <label className="flex items-center gap-2 cursor-pointer select-none">
+                <div
+                  className="flex items-center gap-2 cursor-pointer select-none"
+                  onClick={() => handleHolidayToggle(!dayLog?.isHoliday)}
+                >
                   <div
                     className={`w-10 h-5 rounded-full transition-colors relative ${
                       dayLog?.isHoliday ? "bg-amber-400" : "bg-slate-200"
                     }`}
-                    onClick={() => handleHolidayToggle(!dayLog?.isHoliday)}
                   >
                     <span
                       className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
@@ -227,7 +232,7 @@ const WorkLogPage = () => {
                   <span className="text-sm font-medium text-slate-700">
                     Mark as Holiday
                   </span>
-                </label>
+                </div>
                 {dayLog?.isHoliday && (
                   <input
                     type="text"
@@ -250,7 +255,7 @@ const WorkLogPage = () => {
                   </div>
                   <p className="text-slate-500 font-medium">Nothing logged yet.</p>
                   <p className="text-slate-400 text-sm mt-1">
-                    What did you work on today?
+                    Nothing logged for this day.
                   </p>
                 </div>
               ) : (
