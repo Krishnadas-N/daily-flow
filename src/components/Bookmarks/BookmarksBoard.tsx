@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useStore } from "../../store/useStore";
 import {
   Plus,
@@ -13,7 +13,10 @@ import {
 import BookmarkCard from "./BookmarkCard";
 
 const BookmarksBoard = () => {
-  const { bookmarks, deleteBookmark, addBookmark, updateBookmark } = useStore();
+  const bookmarks = useStore((state) => state.bookmarks);
+  const deleteBookmark = useStore((state) => state.deleteBookmark);
+  const addBookmark = useStore((state) => state.addBookmark);
+  const updateBookmark = useStore((state) => state.updateBookmark);
   const [selectedView, setSelectedView] = useState<{
     group: string | null;
     subgroup: string | null;
@@ -26,15 +29,18 @@ const BookmarksBoard = () => {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
 
   // Build folder hierarchy
-  const hierarchy: Record<string, Set<string>> = {};
-  bookmarks.forEach((b) => {
-    if (!hierarchy[b.group]) {
-      hierarchy[b.group] = new Set();
-    }
-    if (b.subgroup) {
-      hierarchy[b.group].add(b.subgroup);
-    }
-  });
+  const hierarchy = useMemo(() => {
+    const nextHierarchy: Record<string, Set<string>> = {};
+    bookmarks.forEach((bookmark) => {
+      if (!nextHierarchy[bookmark.group]) {
+        nextHierarchy[bookmark.group] = new Set();
+      }
+      if (bookmark.subgroup) {
+        nextHierarchy[bookmark.group].add(bookmark.subgroup);
+      }
+    });
+    return nextHierarchy;
+  }, [bookmarks]);
 
   const toggleGroup = (group: string) => {
     setExpandedGroups((prev) => {
@@ -45,26 +51,31 @@ const BookmarksBoard = () => {
     });
   };
 
-  const filteredBookmarks = bookmarks
-    .filter((b) => {
-      if (selectedView.group === null) return true; // 'All' selected
-      if (selectedView.group !== b.group) return false;
-      if (
-        selectedView.subgroup !== null &&
-        selectedView.subgroup !== b.subgroup
-      )
-        return false;
-      return true;
-    })
-    .filter((b) => {
-      if (!searchQuery) return true;
-      const q = searchQuery.toLowerCase();
-      return (
-        b.title.toLowerCase().includes(q) ||
-        b.url.toLowerCase().includes(q) ||
-        (b.description && b.description.toLowerCase().includes(q))
-      );
-    });
+  const filteredBookmarks = useMemo(
+    () =>
+      bookmarks
+        .filter((bookmark) => {
+          if (selectedView.group === null) return true;
+          if (selectedView.group !== bookmark.group) return false;
+          if (
+            selectedView.subgroup !== null &&
+            selectedView.subgroup !== bookmark.subgroup
+          )
+            return false;
+          return true;
+        })
+        .filter((bookmark) => {
+          if (!searchQuery) return true;
+          const q = searchQuery.toLowerCase();
+          return (
+            bookmark.title.toLowerCase().includes(q) ||
+            bookmark.url.toLowerCase().includes(q) ||
+            (bookmark.description &&
+              bookmark.description.toLowerCase().includes(q))
+          );
+        }),
+    [bookmarks, searchQuery, selectedView.group, selectedView.subgroup],
+  );
 
   const parseInput = (text: string) => {
     const urlMatch = text.match(/(https?:\/\/[^\s]+)/);

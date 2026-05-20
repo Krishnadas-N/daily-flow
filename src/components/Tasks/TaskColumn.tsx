@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import TaskCard from "./TaskCard";
 import type { Task, TaskStatus } from "../../types";
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const TaskColumn = ({ status, tasks }: Props) => {
-  const { addTask } = useStore();
+  const addTask = useStore((state) => state.addTask);
   const [addingTask, setAddingTask] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
 
@@ -45,6 +45,18 @@ const TaskColumn = ({ status, tasks }: Props) => {
     setAddingTask(false);
   };
 
+  const sortedTasks = useMemo(
+    () =>
+      [...tasks].sort((a, b) => {
+        const priorityWeight = { High: 3, Medium: 2, Low: 1 };
+        if (priorityWeight[a.priority] !== priorityWeight[b.priority]) {
+          return priorityWeight[b.priority] - priorityWeight[a.priority];
+        }
+        return b.createdAt - a.createdAt;
+      }),
+    [tasks],
+  );
+
   return (
     <div className="flex flex-col h-full bg-slate-50 rounded-[28px] border border-slate-200 shadow-sm overflow-hidden min-w-[280px] sm:min-w-[320px] max-w-[360px] flex-1">
       <div className="p-5 pb-3 flex items-center justify-between">
@@ -65,17 +77,7 @@ const TaskColumn = ({ status, tasks }: Props) => {
               snapshot.isDraggingOver ? "bg-indigo-50/50" : "bg-transparent"
             }`}
           >
-            {tasks
-              .sort((a, b) => {
-                const priorityWeight = { High: 3, Medium: 2, Low: 1 };
-                if (priorityWeight[a.priority] !== priorityWeight[b.priority]) {
-                  return (
-                    priorityWeight[b.priority] - priorityWeight[a.priority]
-                  );
-                }
-                return b.createdAt - a.createdAt;
-              })
-              .map((task, index) => (
+            {sortedTasks.map((task, index) => (
                 <TaskCard key={task.id} task={task} index={index} />
               ))}
             {provided.placeholder}

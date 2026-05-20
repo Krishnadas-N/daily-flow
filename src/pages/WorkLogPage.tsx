@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   format,
   startOfMonth,
@@ -26,16 +26,26 @@ const WorkLogPage = () => {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today);
   const [selectedDate, setSelectedDate] = useState(today);
-  const { workLogs, addWorkLogItem, updateWorkLogItem, deleteWorkLogItem, setHoliday } =
-    useStore();
+  const workLogs = useStore((state) => state.workLogs);
+  const addWorkLogItem = useStore((state) => state.addWorkLogItem);
+  const updateWorkLogItem = useStore((state) => state.updateWorkLogItem);
+  const deleteWorkLogItem = useStore((state) => state.deleteWorkLogItem);
+  const setHoliday = useStore((state) => state.setHoliday);
 
   const [newItemText, setNewItemText] = useState("");
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [editingText, setEditingText] = useState("");
   const [holidayReason, setHolidayReason] = useState("");
 
+  const logsByDate = useMemo(() => {
+    const map = new Map<string, (typeof workLogs)[number]>();
+    workLogs.forEach((log) => {
+      map.set(log.date, log);
+    });
+    return map;
+  }, [workLogs]);
   const selectedDateStr = format(selectedDate, "yyyy-MM-dd");
-  const dayLog = workLogs.find((d) => d.date === selectedDateStr);
+  const dayLog = logsByDate.get(selectedDateStr);
 
   const handleSelectDate = (date: Date) => {
     setSelectedDate(date);
@@ -44,7 +54,7 @@ const WorkLogPage = () => {
     }
     setNewItemText("");
     setEditingItemId(null);
-    setHolidayReason(getDayLog(date)?.holidayReason ?? "");
+    setHolidayReason(logsByDate.get(format(date, "yyyy-MM-dd"))?.holidayReason ?? "");
   };
 
   const handleAddItem = () => {
@@ -87,9 +97,6 @@ const WorkLogPage = () => {
   const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
   const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
   const calendarDays = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
-
-  const getDayLog = (date: Date) =>
-    workLogs.find((d) => d.date === format(date, "yyyy-MM-dd"));
 
   return (
     <div className="h-full flex flex-col pt-4 md:pt-8 px-2 md:px-8 max-w-[1400px] mx-auto w-full animate-slide-up">
@@ -142,7 +149,7 @@ const WorkLogPage = () => {
             {/* Day Cells */}
             <div className="grid grid-cols-7 gap-y-1">
               {calendarDays.map((day) => {
-                const log = getDayLog(day);
+                const log = logsByDate.get(format(day, "yyyy-MM-dd"));
                 const isSelected = isSameDay(day, selectedDate);
                 const isToday = isSameDay(day, today);
                 const isCurrentMonth = isSameMonth(day, currentMonth);

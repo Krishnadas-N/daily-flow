@@ -20,7 +20,8 @@ import {
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isSidebarCollapsed, toggleSidebarCollapse } = useStore();
+  const isSidebarCollapsed = useStore((state) => state.isSidebarCollapsed);
+  const toggleSidebarCollapse = useStore((state) => state.toggleSidebarCollapse);
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -94,14 +95,14 @@ const Sidebar = () => {
       </button>
 
       <aside
-        className={`sidebar fixed bg-white text-slate-700 ${isSidebarCollapsed ? "w-20" : "w-64"} h-screen border-r border-slate-200 transition-all duration-300 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 z-40 flex flex-col shadow-sm dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700`}
+        className={`sidebar fixed bg-white text-slate-700 ${isSidebarCollapsed ? "w-20" : "w-64"} h-screen border-r border-slate-200 transition-[width,transform] duration-300 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 z-40 flex flex-col shadow-sm dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700`}
       >
         <div
           className={`p-6 pb-4 flex items-center ${isSidebarCollapsed ? "justify-center" : "justify-between"}`}
         >
           <div className="flex items-center gap-2">
             <div
-              className="bg-indigo-600 text-white p-1.5 rounded-lg shadow-sm cursor-pointer hover:bg-indigo-700 transition"
+              className="bg-indigo-600 text-white p-1.5 rounded-lg shadow-sm cursor-pointer hover:bg-indigo-700 transition-colors"
               onClick={toggleSidebarCollapse}
               title="Toggle Sidebar"
             >
@@ -122,7 +123,7 @@ const Sidebar = () => {
               to={link.to}
               onClick={() => setIsOpen(false)}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors ${
                   isActive
                     ? "bg-indigo-50 text-indigo-600 font-semibold shadow-sm border border-indigo-100/50 dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-400/30"
                     : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"

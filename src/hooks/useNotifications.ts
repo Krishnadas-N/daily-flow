@@ -3,7 +3,8 @@ import { useStore } from '../store/useStore';
 import { parse, set } from 'date-fns';
 
 export function useNotifications() {
-  const { tasks, reminders } = useStore();
+  const tasks = useStore((state) => state.tasks);
+  const reminders = useStore((state) => state.reminders);
   const notifiedSet = useRef<Set<string>>(new Set());
 
   useEffect(() => {

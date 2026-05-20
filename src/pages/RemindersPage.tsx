@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useStore } from "../store/useStore";
 import { Bell, BellRing, Trash2, Plus, Calendar } from "lucide-react";
 
 const RemindersPage = () => {
-  const { reminders, addReminder, deleteReminder } = useStore();
+  const reminders = useStore((state) => state.reminders);
+  const addReminder = useStore((state) => state.addReminder);
+  const deleteReminder = useStore((state) => state.deleteReminder);
+  const sortedReminders = useMemo(
+    () => [...reminders].sort((a, b) => b.createdAt - a.createdAt),
+    [reminders],
+  );
   const [showAddForm, setShowAddForm] = useState(false);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -109,9 +115,7 @@ const RemindersPage = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {reminders
-          .sort((a, b) => b.createdAt - a.createdAt)
-          .map((reminder) => {
+        {sortedReminders.map((reminder) => {
             const reminderDateTimeStr =
               reminder.reminderDate +
               (reminder.reminderTime ? "T" + reminder.reminderTime : "");

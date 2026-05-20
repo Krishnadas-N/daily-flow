@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useStore } from "../../store/useStore";
 import { BookOpen, Clock, Trash2 } from "lucide-react";
 import type { LearningStatus } from "../../types";
 
 const LearningBoard = () => {
-  const { learnings, updateLearningStatus, deleteLearning } = useStore();
+  const learnings = useStore((state) => state.learnings);
+  const updateLearningStatus = useStore((state) => state.updateLearningStatus);
+  const deleteLearning = useStore((state) => state.deleteLearning);
   const [filter, setFilter] = useState<LearningStatus | "All">("All");
 
-  const filtered =
-    filter === "All" ? learnings : learnings.filter((l) => l.status === filter);
+  const filtered = useMemo(
+    () =>
+      filter === "All"
+        ? learnings
+        : learnings.filter((learning) => learning.status === filter),
+    [filter, learnings],
+  );
 
   const statuses: (LearningStatus | "All")[] = [
     "All",

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const AddBookmarkModal = ({ onClose, existingGroups }: Props) => {
-  const { addBookmark } = useStore();
+  const addBookmark = useStore((state) => state.addBookmark);
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

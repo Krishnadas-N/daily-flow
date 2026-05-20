@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 import { useStore } from "../store/useStore";
@@ -26,12 +26,23 @@ export const useCloudSync = () => {
 
   const exportSyncSnapshot = useStore((state) => state.exportSyncSnapshot);
   const applySyncSnapshot = useStore((state) => state.applySyncSnapshot);
+  const localChangeWriteTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const sub = useStore.subscribe(() => {
-      localStorage.setItem(LAST_LOCAL_CHANGE_AT_KEY, new Date().toISOString());
+      if (localChangeWriteTimerRef.current) {
+        window.clearTimeout(localChangeWriteTimerRef.current);
+      }
+      localChangeWriteTimerRef.current = window.setTimeout(() => {
+        localStorage.setItem(LAST_LOCAL_CHANGE_AT_KEY, new Date().toISOString());
+      }, 250);
     });
-    return () => sub();
+    return () => {
+      if (localChangeWriteTimerRef.current) {
+        window.clearTimeout(localChangeWriteTimerRef.current);
+      }
+      sub();
+    };
   }, []);
 
   useEffect(() => {

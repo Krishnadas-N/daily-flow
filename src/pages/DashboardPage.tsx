@@ -1,21 +1,32 @@
+import { useMemo } from "react";
 import HabitTracker from "../components/Habits/HabitTracker";
 import { useStore } from "../store/useStore";
 import { Lightbulb, Trash2, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const DashboardPage = () => {
-  const { ideas, deleteIdea, tasks, learnings } = useStore();
+  const ideas = useStore((state) => state.ideas);
+  const deleteIdea = useStore((state) => state.deleteIdea);
+  const tasks = useStore((state) => state.tasks);
+  const learnings = useStore((state) => state.learnings);
 
-  const pendingTasks = tasks
-    .filter((t) => t.status !== "Completed")
-    .sort((a, b) => {
-      const priorityWeight = { High: 3, Medium: 2, Low: 1 };
-      if (priorityWeight[a.priority] !== priorityWeight[b.priority]) {
-        return priorityWeight[b.priority] - priorityWeight[a.priority];
-      }
-      return b.createdAt - a.createdAt;
-    });
-  const activeLearnings = learnings.filter((l) => l.status === "Learning");
+  const pendingTasks = useMemo(
+    () =>
+      tasks
+        .filter((task) => task.status !== "Completed")
+        .sort((a, b) => {
+          const priorityWeight = { High: 3, Medium: 2, Low: 1 };
+          if (priorityWeight[a.priority] !== priorityWeight[b.priority]) {
+            return priorityWeight[b.priority] - priorityWeight[a.priority];
+          }
+          return b.createdAt - a.createdAt;
+        }),
+    [tasks],
+  );
+  const activeLearnings = useMemo(
+    () => learnings.filter((learning) => learning.status === "Learning"),
+    [learnings],
+  );
 
   return (
     <div className="h-full flex flex-col pt-4 md:pt-8 px-2 md:px-8 max-w-[1400px] mx-auto w-full animate-slide-up">

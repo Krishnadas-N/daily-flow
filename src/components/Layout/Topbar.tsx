@@ -22,7 +22,11 @@ const Topbar = () => {
   const [showConnectForm, setShowConnectForm] = useState(false);
   const [emailInput, setEmailInput] = useState("");
 
-  const { addTask, addLearning, addIdea, theme, toggleTheme } = useStore();
+  const addTask = useStore((state) => state.addTask);
+  const addLearning = useStore((state) => state.addLearning);
+  const addIdea = useStore((state) => state.addIdea);
+  const theme = useStore((state) => state.theme);
+  const toggleTheme = useStore((state) => state.toggleTheme);
   const {
     session,
     syncState,
@@ -98,16 +102,13 @@ const Topbar = () => {
   ];
 
   return (
-    <div className="w-full sticky top-0 z-30 px-3 md:px-8 py-2 md:py-3 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/90">
-      <div className="rounded-2xl border border-slate-200/70 bg-white/70 px-3 py-3 shadow-sm dark:border-slate-700/70 dark:bg-slate-900/70">
-        <div className="flex items-center justify-between gap-3 mb-3">
+    <div className="w-full sticky top-0 z-30 px-3 md:px-8 py-1.5 md:py-2 border-b border-slate-200 bg-slate-100/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
+      <div className="rounded-xl border border-slate-200 bg-white px-2.5 py-2 shadow-sm dark:border-slate-700 dark:bg-slate-950">
+        <div className="flex items-center justify-between gap-2 mb-2">
           <div className="hidden md:block">
-            <h2 className="text-slate-800 dark:text-slate-100 font-semibold text-base leading-tight tracking-tight">
+            <h2 className="text-slate-800 dark:text-slate-100 font-semibold text-sm leading-tight tracking-tight">
               Focus Workspace
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 text-xs">
-              Capture thoughts fast.
-            </p>
           </div>
 
           <div className="flex items-center gap-2 ml-auto">
@@ -115,7 +116,7 @@ const Topbar = () => {
               type="button"
               onClick={toggleTheme}
               title="Toggle theme"
-              className="shrink-0 p-2 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
+              className="shrink-0 p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
             >
               {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </button>
@@ -127,7 +128,7 @@ const Topbar = () => {
                   onClick={handleSync}
                   disabled={isSyncing}
                   title="Sync across devices"
-                  className="shrink-0 p-2 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all disabled:opacity-60 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
+                  className="shrink-0 p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors disabled:opacity-60 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
                 >
                   {isSyncing ? (
                     <Loader2 size={17} className="animate-spin" />
@@ -139,7 +140,7 @@ const Topbar = () => {
                   type="button"
                   onClick={handleSignOut}
                   title="Sign out from cloud sync"
-                  className="hidden sm:flex shrink-0 p-2 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
+                  className="hidden sm:flex shrink-0 p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
                 >
                   <LogOut size={17} />
                 </button>
@@ -149,7 +150,7 @@ const Topbar = () => {
                 type="button"
                 onClick={() => setShowConnectForm((prev) => !prev)}
                 title="Connect cloud sync"
-                className="shrink-0 px-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all text-xs font-semibold dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
+                className="shrink-0 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors text-xs font-semibold dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-700"
               >
                 Connect Cloud
               </button>
@@ -159,15 +160,15 @@ const Topbar = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="w-full bg-slate-50/95 border border-slate-200 rounded-2xl flex items-center p-1.5 shadow-sm transition-all focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-400/20 focus-within:bg-white dark:bg-slate-950/80 dark:border-slate-700 dark:focus-within:bg-slate-900"
+          className="w-full bg-slate-50 border border-slate-200 rounded-xl flex items-center p-1 shadow-sm transition-colors focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-400/20 focus-within:bg-white dark:bg-slate-900 dark:border-slate-700 dark:focus-within:bg-slate-900"
         >
-          <div className="flex bg-slate-100/90 rounded-xl p-0.5 mr-1.5 border border-slate-200/60 shrink-0 dark:bg-slate-800 dark:border-slate-700">
+          <div className="flex bg-slate-100/90 rounded-lg p-0.5 mr-1.5 border border-slate-200/60 shrink-0 dark:bg-slate-800 dark:border-slate-700">
             {types.map((t) => (
               <button
                 key={t.value}
                 type="button"
                 onClick={() => setType(t.value)}
-                className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm ${
+                className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-md text-xs font-semibold transition-colors shadow-sm ${
                   type === t.value
                     ? "bg-white text-indigo-600 border border-slate-200/50 dark:bg-slate-700 dark:text-indigo-300 dark:border-slate-600"
                     : "text-slate-500 hover:text-slate-800 hover:bg-slate-200/40 shadow-none border border-transparent dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-700/70"
@@ -192,13 +193,13 @@ const Topbar = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={`Quick add new ${type.toLowerCase()}...`}
-            className="flex-1 bg-transparent border-none outline-none text-slate-800 dark:text-slate-100 text-sm px-1 sm:px-2 py-2 placeholder-slate-400 dark:placeholder-slate-500 font-medium min-w-0"
+            className="flex-1 bg-transparent border-none outline-none text-slate-800 dark:text-slate-100 text-sm px-1 sm:px-2 py-1.5 placeholder-slate-400 dark:placeholder-slate-500 font-medium min-w-0"
           />
 
           <button
             type="submit"
             disabled={!input.trim()}
-            className="ml-1 sm:ml-2 bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600 shadow-sm shrink-0"
+            className="ml-1 sm:ml-2 bg-indigo-600 hover:bg-indigo-700 text-white p-1.5 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600 shadow-sm shrink-0"
           >
             <Plus size={18} />
           </button>
@@ -207,7 +208,7 @@ const Topbar = () => {
         {showConnectForm && !session ? (
           <form
             onSubmit={handleSignIn}
-            className="mt-2 w-full flex items-center gap-2 p-2 rounded-xl border border-slate-200 bg-white/80 dark:bg-slate-900/80 dark:border-slate-700"
+            className="mt-1.5 w-full flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700"
           >
             <input
               type="email"
@@ -225,7 +226,7 @@ const Topbar = () => {
           </form>
         ) : null}
 
-        <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+        <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-[11px]">
           {session ? (
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border border-indigo-200 text-indigo-700 bg-indigo-50 dark:border-indigo-400/40 dark:text-indigo-300 dark:bg-indigo-500/10">
               <Cloud size={13} />

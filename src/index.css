@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-brand-50: #eef2ff;
@@ -47,6 +48,12 @@
 
   #root {
     min-height: 100vh;
+  }
+
+  .theme-changing *,
+  .theme-changing *::before,
+  .theme-changing *::after {
+    transition: none !important;
   }
 
   .app-shell {

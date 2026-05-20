@@ -3,7 +3,10 @@ import { useStore } from "../../store/useStore";
 import { Plus, Trash2, Check, Target } from "lucide-react";
 
 const HabitTracker = () => {
-  const { habits, addHabit, toggleHabitDate, deleteHabit } = useStore();
+  const habits = useStore((state) => state.habits);
+  const addHabit = useStore((state) => state.addHabit);
+  const toggleHabitDate = useStore((state) => state.toggleHabitDate);
+  const deleteHabit = useStore((state) => state.deleteHabit);
   const [newHabitName, setNewHabitName] = useState("");
 
   // Get last 7 days

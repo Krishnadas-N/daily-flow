@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
 import TaskColumn from "./TaskColumn";
 import { useStore } from "../../store/useStore";
@@ -6,7 +7,16 @@ import type { TaskStatus } from "../../types";
 const columns: TaskStatus[] = ["Todo", "In Progress", "Completed"];
 
 const TaskBoard = () => {
-  const { tasks, updateTaskStatus } = useStore();
+  const tasks = useStore((state) => state.tasks);
+  const updateTaskStatus = useStore((state) => state.updateTaskStatus);
+  const tasksByStatus = useMemo(
+    () =>
+      columns.reduce<Record<TaskStatus, typeof tasks>>((acc, status) => {
+        acc[status] = tasks.filter((task) => task.status === status);
+        return acc;
+      }, { Todo: [], "In Progress": [], Completed: [] }),
+    [tasks],
+  );
 
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
@@ -31,7 +41,7 @@ const TaskBoard = () => {
           <TaskColumn
             key={status}
             status={status}
-            tasks={tasks.filter((t) => t.status === status)}
+            tasks={tasksByStatus[status]}
           />
         ))}
       </div>

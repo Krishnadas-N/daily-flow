@@ -14,7 +14,10 @@ import {
 import { TrendingUp, CheckCircle, Brain, BookOpen } from "lucide-react";
 
 const AnalyticsPage = () => {
-  const { tasks, learnings, habits, theme } = useStore();
+  const tasks = useStore((state) => state.tasks);
+  const learnings = useStore((state) => state.learnings);
+  const habits = useStore((state) => state.habits);
+  const theme = useStore((state) => state.theme);
   const isDark = theme === "dark";
 
   const taskStats = useMemo(() => {
@@ -184,7 +187,7 @@ const AnalyticsPage = () => {
                   dataKey="tasksCompleted"
                   fill="#3b82f6"
                   radius={[6, 6, 2, 2]}
-                  barSize={window.innerWidth < 640 ? 24 : 40}
+                  barSize={32}
                   name="Tasks"
                 />
               </BarChart>

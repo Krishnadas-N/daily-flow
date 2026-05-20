@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useStore } from "../store/useStore";
 import { Plus, Search, Trash2, Edit3, X, StickyNote, Eye } from "lucide-react";
 import type { Note } from "../types";
 
 const NotesPage = () => {
-  const { notes, addNote, updateNote, deleteNote } = useStore();
+  const notes = useStore((state) => state.notes);
+  const addNote = useStore((state) => state.addNote);
+  const updateNote = useStore((state) => state.updateNote);
+  const deleteNote = useStore((state) => state.deleteNote);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
@@ -15,11 +18,14 @@ const NotesPage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const filteredNotes = notes.filter(
-    (n) =>
-      n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      n.content.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredNotes = useMemo(() => {
+    const query = searchQuery.toLowerCase();
+    return notes.filter(
+      (note) =>
+        note.title.toLowerCase().includes(query) ||
+        note.content.toLowerCase().includes(query),
+    );
+  }, [notes, searchQuery]);
 
   const openAppModal = (note?: Note) => {
     if (note) {

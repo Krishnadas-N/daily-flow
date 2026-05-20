@@ -10,7 +10,8 @@ interface Props {
 }
 
 const TaskCard = ({ task, index }: Props) => {
-  const { deleteTask, updateTask } = useStore();
+  const deleteTask = useStore((state) => state.deleteTask);
+  const updateTask = useStore((state) => state.updateTask);
   const [showReminderForm, setShowReminderForm] = useState(false);
   const [remDate, setRemDate] = useState(task.reminderDate || "");
   const [remTime, setRemTime] = useState(task.reminderTime || "");
