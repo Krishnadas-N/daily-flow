@@ -1,4 +1,13 @@
-# React + TypeScript + Vite
+# Daily Flux (TasksList)
+
+Daily productivity workspace built with React + TypeScript + Vite.
+
+## Cloud Sync
+
+Supabase cloud sync (free tier) scaffolding is included.
+
+- Setup guide: `SUPABASE_SETUP.md`
+- Required env vars: `.env.example`
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

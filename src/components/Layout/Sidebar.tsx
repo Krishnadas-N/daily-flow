@@ -87,7 +87,7 @@ const Sidebar = () => {
   return (
     <>
       <button
-        className="fixed top-4 right-4 z-50 p-2 bg-white text-slate-800 rounded-md border border-slate-200 shadow-sm md:hidden dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
+        className="fixed top-3 left-3 z-50 p-2 bg-white text-slate-800 rounded-md border border-slate-200 shadow-sm md:hidden dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
         onClick={toggleSidebar}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}

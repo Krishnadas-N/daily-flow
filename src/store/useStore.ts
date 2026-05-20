@@ -92,13 +92,28 @@ interface StoreState {
   toggleSidebarCollapse: () => void;
   toggleTheme: () => void;
   setTheme: (theme: "light" | "dark") => void;
+  exportSyncSnapshot: () => StoreSnapshot;
+  applySyncSnapshot: (snapshot: StoreSnapshot) => void;
 
   // Analytics Getters (These could just be derived state, but handy to have access logic here if needed)
 }
 
+type StoreSnapshot = {
+  tasks: Task[];
+  learnings: Learning[];
+  habits: Habit[];
+  ideas: Idea[];
+  reminders: Reminder[];
+  notes: Note[];
+  bookmarks: Bookmark[];
+  workLogs: WorkLogDay[];
+  isSidebarCollapsed: boolean;
+  theme: "light" | "dark";
+};
+
 export const useStore = create<StoreState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       tasks: [],
       learnings: [],
       habits: [
@@ -406,6 +421,49 @@ export const useStore = create<StoreState>()(
           theme: state.theme === "light" ? "dark" : "light",
         })),
       setTheme: (theme) => set(() => ({ theme })),
+      exportSyncSnapshot: () => {
+        const state = get();
+        return {
+          tasks: state.tasks,
+          learnings: state.learnings,
+          habits: state.habits,
+          ideas: state.ideas,
+          reminders: state.reminders,
+          notes: state.notes,
+          bookmarks: state.bookmarks,
+          workLogs: state.workLogs,
+          theme: state.theme,
+          isSidebarCollapsed: state.isSidebarCollapsed,
+        };
+      },
+      applySyncSnapshot: (snapshot) =>
+        set((state) => ({
+          ...state,
+          tasks: Array.isArray(snapshot.tasks) ? (snapshot.tasks as Task[]) : [],
+          learnings: Array.isArray(snapshot.learnings)
+            ? (snapshot.learnings as Learning[])
+            : [],
+          habits: Array.isArray(snapshot.habits) ? (snapshot.habits as Habit[]) : [],
+          ideas: Array.isArray(snapshot.ideas) ? (snapshot.ideas as Idea[]) : [],
+          reminders: Array.isArray(snapshot.reminders)
+            ? (snapshot.reminders as Reminder[])
+            : [],
+          notes: Array.isArray(snapshot.notes) ? (snapshot.notes as Note[]) : [],
+          bookmarks: Array.isArray(snapshot.bookmarks)
+            ? (snapshot.bookmarks as Bookmark[])
+            : [],
+          workLogs: Array.isArray(snapshot.workLogs)
+            ? (snapshot.workLogs as WorkLogDay[])
+            : [],
+          theme:
+            snapshot.theme === "dark" || snapshot.theme === "light"
+              ? snapshot.theme
+              : state.theme,
+          isSidebarCollapsed:
+            typeof snapshot.isSidebarCollapsed === "boolean"
+              ? snapshot.isSidebarCollapsed
+              : state.isSidebarCollapsed,
+        })),
     }),
     {
       name: "daily-flow-storage", // name of item in the storage (must be unique)
