@@ -14,7 +14,8 @@ import {
 import { TrendingUp, CheckCircle, Brain, BookOpen } from "lucide-react";
 
 const AnalyticsPage = () => {
-  const { tasks, learnings, habits } = useStore();
+  const { tasks, learnings, habits, theme } = useStore();
+  const isDark = theme === "dark";
 
   const taskStats = useMemo(() => {
     const last7Days = Array.from({ length: 7 }).map((_, i) => {
@@ -56,10 +57,10 @@ const AnalyticsPage = () => {
   return (
     <div className="h-full flex flex-col pt-4 md:pt-8 px-2 md:px-8 max-w-[1400px] mx-auto w-full animate-slide-up">
       <div className="mb-10">
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50 mb-2">
           Weekly Analytics
         </h1>
-        <p className="text-slate-500 font-medium text-lg">
+        <p className="text-slate-500 dark:text-slate-400 font-medium text-lg">
           Visualize your productivity and learning metrics over the past 7 days.
         </p>
       </div>
@@ -148,33 +149,35 @@ const AnalyticsPage = () => {
               >
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="#e2e8f0"
+                  stroke={isDark ? "#334155" : "#e2e8f0"}
                   vertical={false}
                 />
                 <XAxis
                   dataKey="name"
-                  stroke="#94a3b8"
+                  stroke={isDark ? "#64748b" : "#94a3b8"}
                   tickLine={false}
                   axisLine={false}
                   tick={{ fontSize: 11, fontWeight: 600 }}
                   dy={10}
                 />
                 <YAxis
-                  stroke="#cbd5e1"
+                  stroke={isDark ? "#475569" : "#cbd5e1"}
                   axisLine={false}
                   tickLine={false}
                   tick={{ fontSize: 11 }}
                 />
                 <Tooltip
-                  cursor={{ fill: "#f8fafc" }}
+                  cursor={{ fill: isDark ? "#0f172a" : "#f8fafc" }}
                   contentStyle={{
-                    backgroundColor: "#ffffff",
-                    borderColor: "#e2e8f0",
+                    backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                    borderColor: isDark ? "#334155" : "#e2e8f0",
                     borderRadius: "16px",
                     fontWeight: "bold",
-                    color: "#1e293b",
+                    color: isDark ? "#e2e8f0" : "#1e293b",
                     fontSize: "12px",
-                    boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
+                    boxShadow: isDark
+                      ? "0 10px 25px -5px rgba(2, 6, 23, 0.75)"
+                      : "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
                   }}
                 />
                 <Bar
@@ -202,19 +205,19 @@ const AnalyticsPage = () => {
               >
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="#e2e8f0"
+                  stroke={isDark ? "#334155" : "#e2e8f0"}
                   vertical={false}
                 />
                 <XAxis
                   dataKey="name"
-                  stroke="#94a3b8"
+                  stroke={isDark ? "#64748b" : "#94a3b8"}
                   axisLine={false}
                   tickLine={false}
                   tick={{ fontSize: 11, fontWeight: 600 }}
                   dy={10}
                 />
                 <YAxis
-                  stroke="#cbd5e1"
+                  stroke={isDark ? "#475569" : "#cbd5e1"}
                   axisLine={false}
                   tickLine={false}
                   tick={{ fontSize: 11 }}
@@ -222,13 +225,15 @@ const AnalyticsPage = () => {
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#ffffff",
-                    borderColor: "#e2e8f0",
+                    backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                    borderColor: isDark ? "#334155" : "#e2e8f0",
                     borderRadius: "16px",
                     fontWeight: "bold",
-                    color: "#1e293b",
+                    color: isDark ? "#e2e8f0" : "#1e293b",
                     fontSize: "12px",
-                    boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
+                    boxShadow: isDark
+                      ? "0 10px 25px -5px rgba(2, 6, 23, 0.75)"
+                      : "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
                   }}
                 />
                 <Line

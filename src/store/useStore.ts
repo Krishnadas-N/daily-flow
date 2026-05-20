@@ -15,6 +15,13 @@ import type {
   WorkLogItem,
 } from "../types";
 
+const getInitialTheme = (): "light" | "dark" => {
+  if (typeof window === "undefined") return "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
 interface StoreState {
   tasks: Task[];
   learnings: Learning[];
@@ -25,6 +32,7 @@ interface StoreState {
   bookmarks: Bookmark[];
   workLogs: WorkLogDay[];
   isSidebarCollapsed: boolean;
+  theme: "light" | "dark";
 
   // Tasks Actions
   addTask: (
@@ -82,6 +90,8 @@ interface StoreState {
 
   // UI Actions
   toggleSidebarCollapse: () => void;
+  toggleTheme: () => void;
+  setTheme: (theme: "light" | "dark") => void;
 
   // Analytics Getters (These could just be derived state, but handy to have access logic here if needed)
 }
@@ -111,6 +121,7 @@ export const useStore = create<StoreState>()(
       bookmarks: [],
       workLogs: [],
       isSidebarCollapsed: false,
+      theme: getInitialTheme(),
 
       // ---- Tasks ----
       addTask: (title, needsJiraTicket = false, priority = "Medium") =>
@@ -390,6 +401,11 @@ export const useStore = create<StoreState>()(
         set((state) => ({
           isSidebarCollapsed: !state.isSidebarCollapsed,
         })),
+      toggleTheme: () =>
+        set((state) => ({
+          theme: state.theme === "light" ? "dark" : "light",
+        })),
+      setTheme: (theme) => set(() => ({ theme })),
     }),
     {
       name: "daily-flow-storage", // name of item in the storage (must be unique)

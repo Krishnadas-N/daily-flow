@@ -87,14 +87,14 @@ const Sidebar = () => {
   return (
     <>
       <button
-        className="fixed top-4 right-4 z-50 p-2 bg-white text-slate-800 rounded-md border border-slate-200 shadow-sm md:hidden"
+        className="fixed top-4 right-4 z-50 p-2 bg-white text-slate-800 rounded-md border border-slate-200 shadow-sm md:hidden dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700"
         onClick={toggleSidebar}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
       <aside
-        className={`sidebar fixed bg-white text-slate-700 ${isSidebarCollapsed ? "w-20" : "w-64"} h-screen border-r border-slate-200 transition-all duration-300 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 z-40 flex flex-col shadow-sm`}
+        className={`sidebar fixed bg-white text-slate-700 ${isSidebarCollapsed ? "w-20" : "w-64"} h-screen border-r border-slate-200 transition-all duration-300 transform ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 z-40 flex flex-col shadow-sm dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700`}
       >
         <div
           className={`p-6 pb-4 flex items-center ${isSidebarCollapsed ? "justify-center" : "justify-between"}`}
@@ -108,7 +108,7 @@ const Sidebar = () => {
               <Target size={20} />
             </div>
             {!isSidebarCollapsed && (
-              <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+              <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
                 Daily Flux
               </h1>
             )}
@@ -124,8 +124,8 @@ const Sidebar = () => {
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
                   isActive
-                    ? "bg-indigo-50 text-indigo-600 font-semibold shadow-sm border border-indigo-100/50"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    ? "bg-indigo-50 text-indigo-600 font-semibold shadow-sm border border-indigo-100/50 dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-400/30"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                 }`
               }
             >
@@ -140,7 +140,7 @@ const Sidebar = () => {
         </nav>
 
         <div
-          className={`p-4 border-t border-slate-100 flex flex-col gap-3 ${isSidebarCollapsed ? "items-center" : ""}`}
+          className={`p-4 border-t border-slate-100 dark:border-slate-700 flex flex-col gap-3 ${isSidebarCollapsed ? "items-center" : ""}`}
         >
           <div
             className={`flex gap-2 w-full ${isSidebarCollapsed ? "flex-col items-center" : "flex-row"}`}
@@ -148,7 +148,7 @@ const Sidebar = () => {
             <button
               onClick={exportAllData}
               title="Export All Data"
-              className="flex-1 flex justify-center items-center gap-2 p-2 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 rounded-lg transition-colors text-xs font-medium border border-slate-200 shadow-sm min-w-10"
+              className="flex-1 flex justify-center items-center gap-2 p-2 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 rounded-lg transition-colors text-xs font-medium border border-slate-200 shadow-sm min-w-10 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300 dark:hover:border-indigo-400/40"
             >
               <Download size={14} className="shrink-0" />{" "}
               {!isSidebarCollapsed && "Backup"}
@@ -156,7 +156,7 @@ const Sidebar = () => {
             <button
               onClick={() => fileInputRef.current?.click()}
               title="Import All Data"
-              className="flex-1 flex justify-center items-center gap-2 p-2 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 rounded-lg transition-colors text-xs font-medium border border-slate-200 shadow-sm min-w-10"
+              className="flex-1 flex justify-center items-center gap-2 p-2 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 rounded-lg transition-colors text-xs font-medium border border-slate-200 shadow-sm min-w-10 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300 dark:hover:border-indigo-400/40"
             >
               <Upload size={14} className="shrink-0" />{" "}
               {!isSidebarCollapsed && "Restore"}
@@ -170,8 +170,8 @@ const Sidebar = () => {
             />
           </div>
           {!isSidebarCollapsed && (
-            <div className="text-[10px] text-slate-400 text-center">
-              <p className="font-medium text-slate-500">
+            <div className="text-[10px] text-slate-400 dark:text-slate-500 text-center">
+              <p className="font-medium text-slate-500 dark:text-slate-400">
                 Stay focused. Your personal workspace.
               </p>
             </div>
@@ -182,7 +182,7 @@ const Sidebar = () => {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-30 md:hidden"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}

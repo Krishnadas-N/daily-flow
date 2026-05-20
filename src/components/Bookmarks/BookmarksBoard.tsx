@@ -157,7 +157,7 @@ const BookmarksBoard = () => {
       {/* Omni-bar Area */}
       <div className="w-full relative">
         <div className="flex items-center px-4 py-3 bg-white border border-slate-300 rounded-md focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition-colors shadow-sm">
-          <Plus className="text-slate-400 mr-3 flex-shrink-0" size={20} />
+          <Plus className="text-slate-400 mr-3 shrink-0" size={20} />
           <input
             type="text"
             value={inputValue}
@@ -176,13 +176,13 @@ const BookmarksBoard = () => {
 
       <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0">
         {/* Professional Sidebar Directory */}
-        <div className="w-full lg:w-64 flex-shrink-0 flex flex-col bg-slate-50 border border-slate-200 rounded-md overflow-hidden">
+        <div className="w-full lg:w-64 shrink-0 flex flex-col bg-slate-50 border border-slate-200 rounded-md overflow-hidden max-h-[280px] lg:max-h-none">
           <div className="px-4 py-3 border-b border-slate-200 bg-slate-100 flex items-center gap-2">
             <Folder size={16} className="text-slate-600" />
             <h2 className="text-sm font-semibold text-slate-800">Directory</h2>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-2 space-y-0.5">
+          <div className="flex-1 overflow-y-auto p-2 space-y-0.5 custom-scrollbar">
             <button
               onClick={() => setSelectedView({ group: null, subgroup: null })}
               className={`w-full text-left px-3 py-1.5 rounded-sm text-sm font-medium flex items-center justify-between ${
@@ -242,7 +242,7 @@ const BookmarksBoard = () => {
                         )}
                       </span>
                       <Folder
-                        className={`mr-2 flex-shrink-0 ${isGroupSelected ? "text-indigo-600" : "text-slate-500"}`}
+                        className={`mr-2 shrink-0 ${isGroupSelected ? "text-indigo-600" : "text-slate-500"}`}
                         size={14}
                         fill={isGroupSelected ? "currentColor" : "none"}
                       />
@@ -276,7 +276,7 @@ const BookmarksBoard = () => {
                               }`}
                             >
                               <Folder
-                                className={`mr-2 flex-shrink-0 ${isSubSelected ? "text-indigo-600" : "text-slate-400"}`}
+                                className={`mr-2 shrink-0 ${isSubSelected ? "text-indigo-600" : "text-slate-400"}`}
                                 size={14}
                                 fill={isSubSelected ? "currentColor" : "none"}
                               />
@@ -300,8 +300,8 @@ const BookmarksBoard = () => {
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-w-0 bg-white border border-slate-200 rounded-md overflow-hidden">
           {/* Top Controls Bar */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 bg-slate-50">
-            <div className="relative w-64">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between px-4 py-3 border-b border-slate-200 bg-slate-50">
+            <div className="relative w-full sm:w-64">
               <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
                 <Search size={14} className="text-slate-400" />
               </div>
@@ -341,7 +341,7 @@ const BookmarksBoard = () => {
           </div>
 
           {/* Bookmarks Display */}
-          <div className="flex-1 overflow-y-auto p-4 bg-slate-50/50">
+          <div className="flex-1 overflow-y-auto p-4 bg-slate-50/50 custom-scrollbar">
             {filteredBookmarks.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center">
                 <div className="p-4 bg-slate-100 rounded-full mb-4">

@@ -20,32 +20,32 @@ const DashboardPage = () => {
   return (
     <div className="h-full flex flex-col pt-4 md:pt-8 px-2 md:px-8 max-w-[1400px] mx-auto w-full animate-slide-up">
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50 mb-2">
           Good Morning
         </h1>
-        <p className="text-slate-500 font-medium">
+        <p className="text-slate-500 dark:text-slate-400 font-medium">
           Here's a quick overview of your day. Let's get things done.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 mb-8">
         {/* Ideas capture */}
-        <div className="bg-white border border-slate-200 rounded-[28px] p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col h-[400px] md:h-96 col-span-1 md:col-span-2 lg:col-span-1">
+        <div className="bg-white border border-slate-200 rounded-[28px] p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col h-[400px] md:h-96 col-span-1 md:col-span-2 lg:col-span-1 dark:bg-slate-900/90 dark:border-slate-700 dark:shadow-none">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
               <div className="p-2 bg-amber-100/50 rounded-xl text-amber-500">
                 <Lightbulb size={20} />
               </div>
               Inbox
             </h2>
-            <span className="text-xs font-bold bg-slate-100 text-slate-500 px-3 py-1 rounded-full">
+            <span className="text-xs font-bold bg-slate-100 text-slate-500 px-3 py-1 rounded-full dark:bg-slate-800 dark:text-slate-400">
               {ideas.length}
             </span>
           </div>
 
           <div className="flex-1 overflow-y-auto custom-scrollbar space-y-3 pr-2">
             {ideas.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-slate-400 text-sm">
+              <div className="h-full flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-sm">
                 <p>No ideas yet.</p>
                 <p className="opacity-70 text-center">
                   Use the top bar to capture
@@ -55,14 +55,14 @@ const DashboardPage = () => {
               ideas.map((idea) => (
                 <div
                   key={idea.id}
-                  className="bg-slate-50 p-4 rounded-2xl border border-slate-100 group flex items-start gap-4 transition-all hover:bg-slate-100/50"
+                  className="bg-slate-50 p-4 rounded-2xl border border-slate-100 group flex items-start gap-4 transition-all hover:bg-slate-100/50 dark:bg-slate-800/70 dark:border-slate-700 dark:hover:bg-slate-800"
                 >
-                  <p className="text-[15px] font-medium text-slate-700 flex-1 leading-relaxed">
+                  <p className="text-[15px] font-medium text-slate-700 dark:text-slate-200 flex-1 leading-relaxed">
                     {idea.content}
                   </p>
                   <button
                     onClick={() => deleteIdea(idea.id)}
-                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg md:opacity-0 md:group-hover:opacity-100 transition-all flex-shrink-0"
+                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-lg md:opacity-0 md:group-hover:opacity-100 transition-all shrink-0"
                   >
                     <Trash2 size={16} />
                   </button>
@@ -74,7 +74,7 @@ const DashboardPage = () => {
 
         {/* Priorities Highlights */}
         <div className="col-span-1 md:col-span-2 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="bg-gradient-to-br from-indigo-600 to-indigo-700 border border-indigo-500 rounded-[28px] p-6 sm:p-7 shadow-lg shadow-indigo-200 flex flex-col h-[350px] sm:h-full text-white">
+          <div className="bg-linear-to-br from-indigo-600 to-indigo-700 border border-indigo-500 rounded-[28px] p-6 sm:p-7 shadow-lg shadow-indigo-200 flex flex-col h-[350px] sm:h-full text-white">
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h3 className="text-xl font-bold mb-1">Current Focus</h3>
@@ -112,7 +112,7 @@ const DashboardPage = () => {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-teal-500 to-emerald-600 border border-teal-400/50 rounded-[28px] p-6 sm:p-7 shadow-lg shadow-teal-100 flex flex-col h-[350px] sm:h-full text-white">
+          <div className="bg-linear-to-br from-teal-500 to-emerald-600 border border-teal-400/50 rounded-[28px] p-6 sm:p-7 shadow-lg shadow-teal-100 flex flex-col h-[350px] sm:h-full text-white">
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h3 className="text-xl font-bold mb-1">Learning Now</h3>

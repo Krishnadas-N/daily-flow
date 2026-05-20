@@ -82,7 +82,7 @@ const ArchitectureNode = ({ data, id, selected }: NodeProps) => {
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-3 !h-3 !bg-slate-400 !border-2 !border-white"
+        className="w-3! h-3! bg-slate-400! border-2! border-white!"
       />
 
       <div className="flex flex-col gap-1.5">
@@ -110,7 +110,7 @@ const ArchitectureNode = ({ data, id, selected }: NodeProps) => {
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!w-3 !h-3 !bg-slate-400 !border-2 !border-white"
+        className="w-3! h-3! bg-slate-400! border-2! border-white!"
       />
     </div>
   );
@@ -229,9 +229,9 @@ const ArchitectureCanvas = () => {
   );
 
   return (
-    <div className="h-[calc(100vh-160px)] w-full bg-white rounded-2xl border border-slate-200 shadow-sm flex overflow-hidden">
+    <div className="h-[calc(100vh-160px)] w-full bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col lg:flex-row overflow-hidden">
       {/* Sidebar Palette */}
-      <div className="w-56 bg-slate-50 border-r border-slate-200 p-4 flex flex-col gap-4 z-10 shrink-0">
+      <div className="w-full lg:w-56 bg-slate-50 border-b lg:border-b-0 lg:border-r border-slate-200 p-4 flex flex-col gap-4 z-10 shrink-0">
         <div>
           <h2 className="text-sm font-bold text-slate-900">Blocks</h2>
           <p className="text-[10px] text-slate-500 font-medium mb-3">
@@ -239,7 +239,7 @@ const ArchitectureCanvas = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-2">
           <div
             onDragStart={(e) => onDragStart(e, "frontend")}
             draggable
@@ -274,7 +274,7 @@ const ArchitectureCanvas = () => {
           </div>
         </div>
 
-        <div className="mt-auto flex flex-col gap-2 pt-4 border-t border-slate-200">
+        <div className="mt-auto grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-2 pt-4 border-t border-slate-200">
           <button
             onClick={exportImage}
             className="flex items-center gap-2 justify-center p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors text-sm font-medium"
@@ -311,7 +311,7 @@ const ArchitectureCanvas = () => {
         </div>
       </div>
 
-      <div className="flex-1 relative" ref={reactFlowWrapper}>
+      <div className="flex-1 relative min-h-[420px]" ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -337,7 +337,7 @@ const ArchitectureCanvas = () => {
           <MiniMap
             nodeColor="#6366f1"
             maskColor="rgba(248, 250, 252, 0.7)"
-            className="rounded-xl border border-slate-200 shadow-lg !bg-white"
+            className="rounded-xl border border-slate-200 shadow-lg bg-white!"
           />
 
           <Panel
