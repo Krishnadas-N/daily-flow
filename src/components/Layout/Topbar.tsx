@@ -30,12 +30,14 @@ const Topbar = () => {
   const {
     session,
     syncState,
+    syncMessage,
     lastSyncedAt,
     isSyncing,
     sendMagicLink,
     signOut,
     syncNow,
   } = useCloudSync();
+  const isSendingLink = syncState === "authenticating";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,16 +56,12 @@ const Topbar = () => {
 
   const handleSignIn = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!emailInput.trim()) return;
+    if (!emailInput.trim() || isSendingLink) return;
     try {
       await sendMagicLink(emailInput);
       setEmailInput("");
     } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "Failed to send magic link. Check Supabase config.";
-      window.alert(message);
+      console.error(error);
     }
   };
 
@@ -208,21 +206,56 @@ const Topbar = () => {
         {showConnectForm && !session ? (
           <form
             onSubmit={handleSignIn}
-            className="mt-1.5 w-full flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-white dark:bg-slate-900 dark:border-slate-700"
+            className="mt-1.5 w-full p-2 rounded-xl border border-slate-200 bg-slate-50/80 dark:bg-slate-900 dark:border-slate-700"
           >
-            <input
-              type="email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              placeholder="you@example.com"
-              className="flex-1 bg-transparent border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-400"
-            />
-            <button
-              type="submit"
-              className="px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 transition-colors"
-            >
-              Send Link
-            </button>
+            <label className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1.5">
+              Connect cloud sync
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="email"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                placeholder="you@example.com"
+                disabled={isSendingLink}
+                className="flex-1 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-400 disabled:opacity-70"
+              />
+              <button
+                type="submit"
+                disabled={!emailInput.trim() || isSendingLink}
+                className="min-w-[96px] px-3 py-2 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-1.5"
+              >
+                {isSendingLink ? (
+                  <>
+                    <Loader2 size={13} className="animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  "Send Link"
+                )}
+              </button>
+            </div>
+            <div className="mt-1.5 min-h-4 text-[11px]">
+              {isSendingLink ? (
+                <span className="text-sky-600 dark:text-sky-300">
+                  Sending magic link to your email...
+                </span>
+              ) : syncMessage ? (
+                <span
+                  className={
+                    syncState === "error"
+                      ? "text-rose-600 dark:text-rose-300"
+                      : "text-emerald-600 dark:text-emerald-300"
+                  }
+                >
+                  {syncMessage}
+                </span>
+              ) : (
+                <span className="text-slate-400 dark:text-slate-500">
+                  We will email you a secure sign-in link.
+                </span>
+              )}
+            </div>
           </form>
         ) : null}
 
